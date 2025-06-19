@@ -271,6 +271,21 @@
             <div class="comments-section">
                 <h2 style="font-size: 1.5rem; font-weight: 300; letter-spacing: 4px; margin-bottom: 30px;">COMMENTS</h2>
                 
+                <!-- 댓글 목록 -->
+                <div class="comments-list">
+                    {% for comment in comments %}
+                    <div style="margin-bottom: 24px; position:relative;">
+                        <div class="comment-text" style="background:none; padding:0; border:none; font-size:1rem; line-height:1.7; margin-bottom:8px; letter-spacing:0.5px;">{{ comment.text }}</div>
+                        <div class="comment-meta" style="color:#666; font-size:0.8rem; letter-spacing:1px; text-transform:uppercase;">— {{ comment.author }}</div>
+                        <a href="/delete_comment/{{ image.filename }}/{{ comment.id }}" class="delete-btn" onclick="return confirm('Delete this comment?')">Delete</a>
+                    </div>
+                    {% endfor %}
+                    {% if not comments %}
+                    <div style="text-align: center; color: #666; padding: 40px 0; font-size: 0.9rem; letter-spacing: 1px;">
+                        NO COMMENTS YET. BE THE FIRST TO COMMENT.
+                    </div>
+                    {% endif %}
+                </div>
                 <!-- 댓글 추가 폼 -->
                 <div class="comment-form">
                     <form method="post" action="/add_comment/{{ image.filename }}">
@@ -284,22 +299,6 @@
                         </div>
                         <button type="submit" class="btn">Add Comment</button>
                     </form>
-                </div>
-                
-                <!-- 댓글 목록 -->
-                <div class="comments-list">
-                    {% for comment in comments %}
-                    <div class="comment-item">
-                        <div class="comment-text">{{ comment.text }}</div>
-                        <div class="comment-meta">— {{ comment.author }}</div>
-                        <a href="/delete_comment/{{ image.filename }}/{{ comment.id }}" class="delete-btn" onclick="return confirm('Delete this comment?')">Delete</a>
-                    </div>
-                    {% endfor %}
-                    {% if not comments %}
-                    <div style="text-align: center; color: #666; padding: 40px 0; font-size: 0.9rem; letter-spacing: 1px;">
-                        NO COMMENTS YET. BE THE FIRST TO COMMENT.
-                    </div>
-                    {% endif %}
                 </div>
             </div>
         </main>

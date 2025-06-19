@@ -87,7 +87,12 @@ def index():
 # 이미지 업로드
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    error = None
     if request.method == 'POST':
+        password = request.form.get('password', '')
+        if password != 'Ckdals12!':
+            error = '비밀번호가 올바르지 않습니다.'
+            return render_template('upload.html', error=error)
         if 'file' not in request.files:
             return redirect(request.url)
         file = request.files['file']
@@ -107,7 +112,7 @@ def upload_file():
             }
             save_data(data)
             return redirect(url_for('index'))
-    return render_template('upload.html')
+    return render_template('upload.html', error=error)
 
 # 댓글 추가 (상세 페이지용)
 @app.route('/add_comment/<filename>', methods=['POST'])

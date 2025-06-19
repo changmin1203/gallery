@@ -116,6 +116,9 @@
         </header>
         <main>
             <form method="post" enctype="multipart/form-data" class="form-container">
+                {% if error %}
+                <div style="color:#ff4444; text-align:center; margin-bottom:20px;">{{ error }}</div>
+                {% endif %}
                 <div class="label">Select Image</div>
                 <input type="file" name="file" accept="image/*" required class="input-field" />
                 
@@ -124,6 +127,9 @@
                 
                 <div class="label">Description</div>
                 <textarea name="desc" maxlength="200" placeholder="Enter description" required class="input-field"></textarea>
+                
+                <div class="label">Password</div>
+                <input type="password" name="password" maxlength="30" placeholder="Enter password" required class="input-field" />
                 
                 <button type="submit" class="submit-btn">Upload</button>
             </form>
