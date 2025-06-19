@@ -29,9 +29,18 @@
             letter-spacing: 2px;
             font-size: 0.8rem;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         .btn:hover { 
             background: white;
+            color: black;
+        }
+        .btn-danger {
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+        .btn-danger:hover {
+            background: #ff4444;
             color: black;
         }
         .masonry-grid {
@@ -43,6 +52,7 @@
             break-inside: avoid;
             margin-bottom: 40px;
             transition: transform 0.3s ease;
+            position: relative;
         }
         .grid-item:hover {
             transform: translateY(-5px);
@@ -66,6 +76,40 @@
             font-weight: 300;
             letter-spacing: 0.5px;
         }
+        .comment-item {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .comment-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        .comment-meta {
+            color: #666;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,68,68,0.8);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .grid-item:hover .delete-btn {
+            opacity: 1;
+        }
         header {
             display: flex;
             justify-content: space-between;
@@ -79,6 +123,42 @@
             font-weight: 300;
             letter-spacing: 8px;
             text-transform: uppercase;
+        }
+        .comment-form {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 40px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: white;
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
         }
         .empty-state {
             text-align: center;
@@ -104,35 +184,60 @@
             <h1>glasses</h1>
             <a href="/upload" class="btn">Upload</a>
         </header>
+        
+        <!-- 댓글 추가 폼 -->
+        <div class="comment-form">
+            <form method="post" action="/add_comment">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="author" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Comment</label>
+                    <textarea name="text" placeholder="Share your thoughts..." required></textarea>
+                </div>
+                <button type="submit" class="btn">Add Comment</button>
+            </form>
+        </div>
+        
         <main>
             <div class="masonry-grid">
-                {% for image in images %}
+                {% for item in content %}
                 <div class="grid-item">
-                    {% if loop.index % 3 == 0 %}
-                    <div class="title">{{ image.title }}</div>
-                    <div class="desc">{{ image.desc }}</div>
-                    <a href="/detail/{{ image.filename }}">
-                        <img src="/uploads/{{ image.filename }}" alt="image">
-                    </a>
-                    {% elif loop.index % 2 == 0 %}
-                    <a href="/detail/{{ image.filename }}">
-                        <img src="/uploads/{{ image.filename }}" alt="image">
-                    </a>
-                    <div class="title">{{ image.title }}</div>
-                    <div class="desc">{{ image.desc }}</div>
-                    {% else %}
-                    <div class="desc">{{ image.desc }}</div>
-                    <a href="/detail/{{ image.filename }}">
-                        <img src="/uploads/{{ image.filename }}" alt="image">
-                    </a>
-                    <div class="title">{{ image.title }}</div>
+                    {% if item.type == "image" %}
+                        {% if loop.index % 3 == 0 %}
+                        <div class="title">{{ item.title }}</div>
+                        <div class="desc">{{ item.desc }}</div>
+                        <a href="/detail/{{ item.filename }}">
+                            <img src="/uploads/{{ item.filename }}" alt="image">
+                        </a>
+                        {% elif loop.index % 2 == 0 %}
+                        <a href="/detail/{{ item.filename }}">
+                            <img src="/uploads/{{ item.filename }}" alt="image">
+                        </a>
+                        <div class="title">{{ item.title }}</div>
+                        <div class="desc">{{ item.desc }}</div>
+                        {% else %}
+                        <div class="desc">{{ item.desc }}</div>
+                        <a href="/detail/{{ item.filename }}">
+                            <img src="/uploads/{{ item.filename }}" alt="image">
+                        </a>
+                        <div class="title">{{ item.title }}</div>
+                        {% endif %}
+                        <a href="/delete_image/{{ item.filename }}" class="delete-btn btn-danger" onclick="return confirm('Delete this image?')">Delete</a>
+                    {% elif item.type == "comment" %}
+                        <div class="comment-item">
+                            <div class="comment-text">{{ item.text }}</div>
+                            <div class="comment-meta">— {{ item.author }}</div>
+                            <a href="/delete_comment/{{ item.id }}" class="delete-btn btn-danger" onclick="return confirm('Delete this comment?')">Delete</a>
+                        </div>
                     {% endif %}
                 </div>
                 {% endfor %}
             </div>
-            {% if not images %}
+            {% if not content %}
             <div class="empty-state">
-                NO IMAGES YET. BE THE FIRST TO UPLOAD.
+                NO CONTENT YET. BE THE FIRST TO SHARE.
             </div>
             {% endif %}
         </main>
