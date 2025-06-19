@@ -30,6 +30,7 @@
             <a href="/" style="text-decoration:none;color:inherit;"><h1>glasses</h1></a>
             {% if session.get('user_id') %}
                 <a href="/create" class="btn">글쓰기</a>
+                <a href="/mypage" class="btn">마이페이지</a>
                 <a href="/logout" class="btn">로그아웃</a>
             {% else %}
                 <a href="/login" class="btn">로그인</a>
@@ -49,6 +50,7 @@
                         <div class="post-content">
                             <div class="post-title">{{ post.title }}</div>
                             <div class="post-desc">{{ post.description }}</div>
+                            <div style="color:#666; font-size:0.9rem; margin-top:8px;">by {{ post.author.nickname }}</div>
                         </div>
                     </div>
                 </a>
