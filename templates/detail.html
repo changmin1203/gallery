@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ image.title }} | 견인지역</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: black; 
+            color: white; 
+            min-height: 100vh;
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 40px 20px;
+        }
+        .btn { 
+            background: none;
+            color: white;
+            padding: 12px 24px;
+            border: 1px solid white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { 
+            background: white;
+            color: black;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+        .detail-container {
+            display: flex;
+            gap: 60px;
+            margin: 60px 0;
+        }
+        .image-container {
+            flex: 1;
+            position: relative;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .content {
+            flex: 0 0 300px;
+            position: sticky;
+            top: 40px;
+            align-self: flex-start;
+        }
+        .title {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .desc {
+            color: #999;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>견인지역</h1>
+            <a href="/" class="btn">Back to Gallery</a>
+        </header>
+        <main>
+            <div class="detail-container">
+                <div class="image-container">
+                    <img src="/uploads/{{ image.filename }}" alt="{{ image.title }}">
+                </div>
+                <div class="content">
+                    <div class="title">{{ image.title }}</div>
+                    <div class="desc">{{ image.desc }}</div>
+                    <a href="/" class="btn">View All Images</a>
+                </div>
+            </div>
+        </main>
+        <footer>
+            © 2024 견인지역
+        </footer>
+    </div>
+</body>
+</html> 

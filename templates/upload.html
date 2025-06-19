@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload | 견인지역</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: black; 
+            color: white; 
+            min-height: 100vh;
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 40px 20px;
+        }
+        .btn { 
+            background: none;
+            color: white;
+            padding: 12px 24px;
+            border: 1px solid white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { 
+            background: white;
+            color: black;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .label {
+            display: block;
+            margin: 20px 0 10px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: white;
+        }
+        textarea.input-field {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .submit-btn {
+            width: 100%;
+            margin-top: 40px;
+            padding: 15px;
+            background: white;
+            color: black;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            background: #f0f0f0;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="btn">← Back</a>
+            <h1>Upload New Content</h1>
+            <div></div>
+        </header>
+        <main>
+            <form method="post" enctype="multipart/form-data" class="form-container">
+                <div class="label">Select Image</div>
+                <input type="file" name="file" accept="image/*" required class="input-field" />
+                
+                <div class="label">Title</div>
+                <input type="text" name="title" maxlength="50" placeholder="Enter title" required class="input-field" />
+                
+                <div class="label">Description</div>
+                <textarea name="desc" maxlength="200" placeholder="Enter description" required class="input-field"></textarea>
+                
+                <button type="submit" class="submit-btn">Upload</button>
+            </form>
+        </main>
+        <footer>
+            © 2024 견인지역
+        </footer>
+    </div>
+</body>
+</html> 

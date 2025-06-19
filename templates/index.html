@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>견인지역</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: black; 
+            color: white; 
+            min-height: 100vh;
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 40px 20px;
+        }
+        .btn { 
+            background: none;
+            color: white;
+            padding: 12px 24px;
+            border: 1px solid white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { 
+            background: white;
+            color: black;
+        }
+        .masonry-grid {
+            columns: 3 300px;
+            column-gap: 40px;
+            padding: 40px 0;
+        }
+        .grid-item {
+            break-inside: avoid;
+            margin-bottom: 40px;
+            transition: transform 0.3s ease;
+        }
+        .grid-item:hover {
+            transform: translateY(-5px);
+        }
+        .grid-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 20px;
+        }
+        .grid-item .title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .grid-item .desc {
+            color: #999;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 100px 0;
+            font-size: 1.2rem;
+            color: #666;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>견인지역</h1>
+            <a href="/upload" class="btn">Upload</a>
+        </header>
+        <main>
+            <div class="masonry-grid">
+                {% for image in images %}
+                <div class="grid-item">
+                    {% if loop.index % 3 == 0 %}
+                    <div class="title">{{ image.title }}</div>
+                    <div class="desc">{{ image.desc }}</div>
+                    <a href="/detail/{{ image.filename }}">
+                        <img src="/uploads/{{ image.filename }}" alt="image">
+                    </a>
+                    {% elif loop.index % 2 == 0 %}
+                    <a href="/detail/{{ image.filename }}">
+                        <img src="/uploads/{{ image.filename }}" alt="image">
+                    </a>
+                    <div class="title">{{ image.title }}</div>
+                    <div class="desc">{{ image.desc }}</div>
+                    {% else %}
+                    <div class="desc">{{ image.desc }}</div>
+                    <a href="/detail/{{ image.filename }}">
+                        <img src="/uploads/{{ image.filename }}" alt="image">
+                    </a>
+                    <div class="title">{{ image.title }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% if not images %}
+            <div class="empty-state">
+                NO IMAGES YET. BE THE FIRST TO UPLOAD.
+            </div>
+            {% endif %}
+        </main>
+        <footer>
+            © 2024 견인지역
+        </footer>
+    </div>
+</body>
+</html> 
