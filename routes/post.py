@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 from models import db, Post, User, Comment
 import os
 from functools import wraps
-from app import send_email
+from mail import send_email
 
 def login_required(f):
     @wraps(f)
