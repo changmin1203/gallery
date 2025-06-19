@@ -8,6 +8,7 @@ from routes.post import post_bp
 from routes.comment import comment_bp
 from flask_mail import Mail, Message
 import config
+from mail import mail
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -27,17 +28,13 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(post_bp)
 app.register_blueprint(comment_bp)
 
-mail = Mail()
+mail.init_app(app)
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
     mail.init_app(app)
     return app
-
-def send_email(subject, recipients, body):
-    msg = Message(subject, recipients=recipients, body=body)
-    mail.send(msg)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
