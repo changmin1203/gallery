@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 | glasses</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { background: black; color: white; font-family: 'Space Grotesk', sans-serif; margin: 0; padding: 0; }
+        .container { max-width: 400px; margin: 80px auto; padding: 40px 30px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+        h2 { font-size: 1.5rem; font-weight: 400; margin-bottom: 30px; letter-spacing: 2px; text-align: center; }
+        .input-field { width: 100%; padding: 12px; background: none; border: 1px solid rgba(255,255,255,0.2); color: white; font-family: 'Space Grotesk', sans-serif; font-size: 1rem; margin-bottom: 20px; }
+        .input-field:focus { outline: none; border-color: white; }
+        .btn { width: 100%; padding: 12px; background: white; color: black; border: none; font-family: 'Space Grotesk', sans-serif; font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; margin-bottom: 10px; }
+        .btn:hover { background: #222; color: white; }
+        .link { display: block; text-align: center; color: #999; margin-top: 20px; text-decoration: none; font-size: 0.95rem; }
+        .link:hover { color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>로그인</h2>
+        <form method="post">
+            <input type="email" name="email" class="input-field" placeholder="이메일" required />
+            <input type="password" name="password" class="input-field" placeholder="비밀번호" required />
+            <button type="submit" class="btn">로그인</button>
+        </form>
+        <a href="/register" class="link">아직 계정이 없으신가요? 회원가입</a>
+        <a href="/" class="link">← 홈으로</a>
+    </div>
+</body>
+</html> 

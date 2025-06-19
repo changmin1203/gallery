@@ -5,235 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>glasses</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        body { 
-            background: black; 
-            color: white; 
-            min-height: 100vh;
-            font-family: 'Space Grotesk', sans-serif;
-            margin: 0;
-            padding: 0;
-            overscroll-behavior: none;
-        }
-        .container { 
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px 20px;
-        }
-        .btn { 
-            background: none;
-            color: white;
-            padding: 12px 24px;
-            border: 1px solid white;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .btn:hover { 
-            background: white;
-            color: black;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0 20px 0;
-            margin-bottom: 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        h1 {
-            font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-        }
-
-        /* Desktop Layout */
-        @media (min-width: 769px) {
-            .masonry-grid {
-                columns: 3 300px;
-                column-gap: 40px;
-                padding: 40px 0;
-            }
-            .grid-item {
-                break-inside: avoid;
-                margin-bottom: 40px;
-                transition: transform 0.3s ease;
-                position: relative;
-            }
-            .grid-item:hover {
-                transform: translateY(-5px);
-            }
-        }
-
-        /* Mobile Layout (iPhone 16) */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px 0;
-            }
-            header {
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
-            .masonry-grid {
-                display: none;
-            }
-            .swiper {
-                width: 100%;
-                height: calc(100vh - 180px);
-            }
-            .swiper-slide {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 20px;
-            }
-            .mobile-grid-item {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            .mobile-grid-item img {
-                width: 100%;
-                height: auto;
-                max-height: 70vh;
-                object-fit: contain;
-                margin-bottom: 20px;
-            }
-            .mobile-grid-item .title {
-                font-size: 1.5rem;
-                font-weight: 300;
-                margin-bottom: 10px;
-                letter-spacing: 1px;
-                text-align: center;
-            }
-            .mobile-grid-item .desc {
-                color: #999;
-                font-size: 0.9rem;
-                line-height: 1.6;
-                font-weight: 300;
-                letter-spacing: 0.5px;
-                text-align: center;
-                margin-bottom: 20px;
-            }
-        }
-
-        .grid-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            margin-bottom: 20px;
-        }
-        .grid-item .title {
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-        .grid-item .desc {
-            color: #999;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-        .delete-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255,68,68,0.8);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .grid-item:hover .delete-btn {
-            opacity: 1;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 100px 0;
-            font-size: 1.2rem;
-            color: #666;
-            letter-spacing: 2px;
-            font-weight: 300;
-        }
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            color: #666;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
+        body { background: black; color: white; min-height: 100vh; font-family: 'Space Grotesk', sans-serif; margin: 0; padding: 0; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 20px 0; margin-bottom: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        h1 { font-size: 2rem; font-weight: 300; letter-spacing: 8px; text-transform: uppercase; }
+        .btn { background: none; color: white; padding: 12px 24px; border: 1px solid white; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; transition: all 0.3s ease; cursor: pointer; }
+        .btn:hover { background: white; color: black; }
+        .post-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; padding: 40px 0; }
+        .post-item { background: none; border-radius: 12px; overflow: hidden; transition: transform 0.3s; position: relative; border: 1px solid rgba(255,255,255,0.05); }
+        .post-item:hover { transform: translateY(-5px); border: 1px solid rgba(255,255,255,0.15); }
+        .post-thumb { width: 100%; height: 320px; object-fit: cover; background: #222; display: block; }
+        .post-content { padding: 24px; }
+        .post-title { font-size: 1.2rem; font-weight: 500; margin-bottom: 10px; letter-spacing: 1px; }
+        .post-desc { color: #999; font-size: 0.95rem; line-height: 1.6; font-weight: 300; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .post-link { display: block; color: inherit; text-decoration: none; }
+        .empty-state { text-align: center; padding: 100px 0; font-size: 1.2rem; color: #666; letter-spacing: 2px; font-weight: 300; }
+        footer { text-align: center; padding: 40px 0; color: #666; font-size: 0.8rem; letter-spacing: 2px; border-top: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>glasses</h1>
-            <a href="/upload" class="btn">Upload</a>
+            <a href="/" style="text-decoration:none;color:inherit;"><h1>glasses</h1></a>
+            {% if session.get('user_id') %}
+                <a href="/create" class="btn">글쓰기</a>
+                <a href="/logout" class="btn">로그아웃</a>
+            {% else %}
+                <a href="/login" class="btn">로그인</a>
+                <a href="/register" class="btn">회원가입</a>
+            {% endif %}
         </header>
         <main>
-            <!-- Desktop Layout -->
-            <div class="masonry-grid">
-                {% for image in images %}
-                <div class="grid-item">
-                    {% if loop.index % 3 == 0 %}
-                    <div class="title">{{ image.title }}</div>
-                    <div class="desc">{{ image.desc }}</div>
-                    <a href="/detail/{{ image.filename }}">
-                        <img src="/uploads/{{ image.filename }}" alt="image">
-                    </a>
-                    {% elif loop.index % 2 == 0 %}
-                    <a href="/detail/{{ image.filename }}">
-                        <img src="/uploads/{{ image.filename }}" alt="image">
-                    </a>
-                    <div class="title">{{ image.title }}</div>
-                    <div class="desc">{{ image.desc }}</div>
-                    {% else %}
-                    <div class="desc">{{ image.desc }}</div>
-                    <a href="/detail/{{ image.filename }}">
-                        <img src="/uploads/{{ image.filename }}" alt="image">
-                    </a>
-                    <div class="title">{{ image.title }}</div>
-                    {% endif %}
-                    <a href="/delete_image/{{ image.filename }}" class="delete-btn" onclick="return confirm('Delete this image?')">Delete</a>
-                </div>
-                {% endfor %}
-            </div>
-
-            <!-- Mobile Layout -->
-            <div class="swiper" style="display: none;">
-                <div class="swiper-wrapper">
-                    {% for image in images %}
-                    <div class="swiper-slide">
-                        <div class="mobile-grid-item">
-                            <img src="/uploads/{{ image.filename }}" alt="image" onclick="window.location.href='/detail/{{ image.filename }}'">
-                            <div class="title">{{ image.title }}</div>
-                            <div class="desc">{{ image.desc }}</div>
+            <div class="post-grid">
+                {% for post in posts %}
+                <a href="/post/{{ post.id }}" class="post-link">
+                    <div class="post-item">
+                        {% if post.image_urls and post.image_urls|length > 0 %}
+                        <img src="{{ post.image_urls[0] }}" class="post-thumb" alt="thumbnail">
+                        {% else %}
+                        <div class="post-thumb"></div>
+                        {% endif %}
+                        <div class="post-content">
+                            <div class="post-title">{{ post.title }}</div>
+                            <div class="post-desc">{{ post.description }}</div>
                         </div>
                     </div>
-                    {% endfor %}
-                </div>
+                </a>
+                {% endfor %}
             </div>
-
-            {% if not images %}
+            {% if not posts %}
             <div class="empty-state">
-                NO IMAGES YET. BE THE FIRST TO UPLOAD.
+                NO POSTS YET. BE THE FIRST TO UPLOAD.
             </div>
             {% endif %}
         </main>
@@ -241,52 +64,5 @@
             © 2024 glasses
         </footer>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        // Check if mobile
-        function isMobile() {
-            return window.innerWidth <= 768;
-        }
-
-        // Initialize Swiper for mobile
-        function initSwiper() {
-            const masonryGrid = document.querySelector('.masonry-grid');
-            const swiperContainer = document.querySelector('.swiper');
-            
-            if (isMobile()) {
-                masonryGrid.style.display = 'none';
-                swiperContainer.style.display = 'block';
-                
-                new Swiper('.swiper', {
-                    direction: 'horizontal',
-                    slidesPerView: 1,
-                    spaceBetween: 30,
-                    grabCursor: true,
-                    effect: 'fade',
-                    fadeEffect: {
-                        crossFade: true
-                    },
-                    speed: 300,
-                    touchRatio: 1.5,
-                    resistance: true,
-                    resistanceRatio: 0.85
-                });
-            } else {
-                masonryGrid.style.display = 'block';
-                swiperContainer.style.display = 'none';
-            }
-        }
-
-        // Initialize on load
-        window.addEventListener('load', initSwiper);
-        
-        // Reinitialize on resize
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(initSwiper, 250);
-        });
-    </script>
 </body>
 </html> 
