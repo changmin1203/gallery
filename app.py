@@ -35,45 +35,25 @@ def save_comments(comments):
     with open(COMMENTS_FILE, 'w', encoding='utf-8') as f:
         json.dump(comments, f, ensure_ascii=False, indent=2)
 
-# 메인 페이지: 사진과 댓글 전시
-def get_content():
+# 메인 페이지: 이미지만 전시
+def get_images():
     data = load_data()
-    comments = load_comments()
-    
-    # 이미지와 댓글을 하나의 리스트로 합치기
-    content = []
-    
-    # 이미지 추가
     files = os.listdir(app.config['UPLOAD_FOLDER'])
+    images = []
     for f in files:
         if allowed_file(f):
             info = data.get(f, {"title": "", "desc": ""})
-            content.append({
-                "type": "image",
+            images.append({
                 "filename": f,
                 "title": info.get("title", ""),
-                "desc": info.get("desc", ""),
-                "timestamp": info.get("timestamp", "")
+                "desc": info.get("desc", "")
             })
-    
-    # 댓글 추가
-    for comment_id, comment in comments.items():
-        content.append({
-            "type": "comment",
-            "id": comment_id,
-            "text": comment.get("text", ""),
-            "author": comment.get("author", ""),
-            "timestamp": comment.get("timestamp", "")
-        })
-    
-    # 타임스탬프로 정렬 (최신순)
-    content.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
-    return content
+    return images
 
 @app.route('/')
 def index():
-    content = get_content()
-    return render_template('index.html', content=content)
+    images = get_images()
+    return render_template('index.html', images=images)
 
 # 이미지 업로드
 @app.route('/upload', methods=['GET', 'POST'])
@@ -100,23 +80,26 @@ def upload_file():
             return redirect(url_for('index'))
     return render_template('upload.html')
 
-# 댓글 추가
-@app.route('/add_comment', methods=['POST'])
-def add_comment():
+# 댓글 추가 (상세 페이지용)
+@app.route('/add_comment/<filename>', methods=['POST'])
+def add_comment(filename):
     text = request.form.get('text', '')
     author = request.form.get('author', 'Anonymous')
     
     if text.strip():
         comments = load_comments()
-        comment_id = f"comment_{len(comments) + 1}_{int(datetime.now().timestamp())}"
-        comments[comment_id] = {
+        if filename not in comments:
+            comments[filename] = []
+        comment_id = f"comment_{len(comments[filename]) + 1}_{int(datetime.now().timestamp())}"
+        comments[filename].append({
+            "id": comment_id,
             "text": text,
             "author": author,
             "timestamp": datetime.now().isoformat()
-        }
+        })
         save_comments(comments)
     
-    return redirect(url_for('index'))
+    return redirect(url_for('image_detail', filename=filename))
 
 # 이미지 삭제
 @app.route('/delete_image/<filename>')
@@ -134,24 +117,26 @@ def delete_image(filename):
     
     return redirect(url_for('index'))
 
-# 댓글 삭제
-@app.route('/delete_comment/<comment_id>')
-def delete_comment(comment_id):
+# 댓글 삭제 (상세 페이지용)
+@app.route('/delete_comment/<filename>/<comment_id>')
+def delete_comment(filename, comment_id):
     comments = load_comments()
-    if comment_id in comments:
-        del comments[comment_id]
+    if filename in comments:
+        comments[filename] = [c for c in comments[filename] if c['id'] != comment_id]
         save_comments(comments)
     
-    return redirect(url_for('index'))
+    return redirect(url_for('image_detail', filename=filename))
 
 # 이미지 상세 페이지
 @app.route('/detail/<filename>')
 def image_detail(filename):
     data = load_data()
+    comments = load_comments()
     if filename in data:
         image_info = data[filename]
         image_info['filename'] = filename
-        return render_template('detail.html', image=image_info)
+        image_comments = comments.get(filename, [])
+        return render_template('detail.html', image=image_info, comments=image_comments)
     return redirect(url_for('index'))
 
 # 업로드된 이미지 제공

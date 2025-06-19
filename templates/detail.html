@@ -29,9 +29,18 @@
             letter-spacing: 2px;
             font-size: 0.8rem;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         .btn:hover { 
             background: white;
+            color: black;
+        }
+        .btn-danger {
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+        .btn-danger:hover {
+            background: #ff4444;
             color: black;
         }
         header {
@@ -50,20 +59,26 @@
         }
         .detail-container {
             display: flex;
-            gap: 60px;
-            margin: 60px 0;
+            gap: 40px;
+            margin: 40px 0;
+            min-height: calc(100vh - 200px);
         }
         .image-container {
             flex: 1;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .image-container img {
-            width: 100%;
+            max-width: 100%;
+            max-height: calc(100vh - 200px);
+            width: auto;
             height: auto;
-            display: block;
+            object-fit: contain;
         }
         .content {
-            flex: 0 0 300px;
+            flex: 0 0 250px;
             position: sticky;
             top: 40px;
             align-self: flex-start;
@@ -80,6 +95,85 @@
             line-height: 1.8;
             margin-bottom: 40px;
             letter-spacing: 0.5px;
+        }
+        .comments-section {
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 40px;
+        }
+        .comment-form {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 40px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: white;
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .comments-list {
+            margin-top: 40px;
+        }
+        .comment-item {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .comment-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        .comment-meta {
+            color: #666;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,68,68,0.8);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .comment-item:hover .delete-btn {
+            opacity: 1;
         }
         footer {
             text-align: center;
@@ -107,6 +201,42 @@
                     <div class="title">{{ image.title }}</div>
                     <div class="desc">{{ image.desc }}</div>
                     <a href="/" class="btn">View All Images</a>
+                </div>
+            </div>
+            
+            <!-- 댓글 섹션 -->
+            <div class="comments-section">
+                <h2 style="font-size: 1.5rem; font-weight: 300; letter-spacing: 4px; margin-bottom: 30px;">COMMENTS</h2>
+                
+                <!-- 댓글 추가 폼 -->
+                <div class="comment-form">
+                    <form method="post" action="/add_comment/{{ image.filename }}">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="author" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Comment</label>
+                            <textarea name="text" placeholder="Share your thoughts..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Add Comment</button>
+                    </form>
+                </div>
+                
+                <!-- 댓글 목록 -->
+                <div class="comments-list">
+                    {% for comment in comments %}
+                    <div class="comment-item">
+                        <div class="comment-text">{{ comment.text }}</div>
+                        <div class="comment-meta">— {{ comment.author }}</div>
+                        <a href="/delete_comment/{{ image.filename }}/{{ comment.id }}" class="delete-btn" onclick="return confirm('Delete this comment?')">Delete</a>
+                    </div>
+                    {% endfor %}
+                    {% if not comments %}
+                    <div style="text-align: center; color: #666; padding: 40px 0; font-size: 0.9rem; letter-spacing: 1px;">
+                        NO COMMENTS YET. BE THE FIRST TO COMMENT.
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </main>
