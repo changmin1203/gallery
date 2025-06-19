@@ -5,10 +5,31 @@ import json
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
+
+# Render의 쓰기 가능한 디렉토리 사용
+if os.environ.get('RENDER'):
+    BASE_DIR = '/opt/render/project/src'
+else:
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
+DATA_FILE = os.path.join(BASE_DIR, 'data.json')
+COMMENTS_FILE = os.path.join(BASE_DIR, 'comments.json')
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
-DATA_FILE = 'data.json'
-COMMENTS_FILE = 'comments.json'
+
+# 필요한 디렉토리와 파일 생성
+try:
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    if not os.path.exists(DATA_FILE):
+        with open(DATA_FILE, 'w', encoding='utf-8') as f:
+            json.dump({}, f)
+    if not os.path.exists(COMMENTS_FILE):
+        with open(COMMENTS_FILE, 'w', encoding='utf-8') as f:
+            json.dump({}, f)
+except Exception as e:
+    print(f"Error creating directories/files: {str(e)}")
 
 # 업로드 허용 확장자 체크
 def allowed_file(filename):
@@ -37,18 +58,26 @@ def save_comments(comments):
 
 # 메인 페이지: 이미지만 전시
 def get_images():
-    data = load_data()
-    files = os.listdir(app.config['UPLOAD_FOLDER'])
-    images = []
-    for f in files:
-        if allowed_file(f):
-            info = data.get(f, {"title": "", "desc": ""})
-            images.append({
-                "filename": f,
-                "title": info.get("title", ""),
-                "desc": info.get("desc", "")
-            })
-    return images
+    try:
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+            return []
+        
+        data = load_data()
+        files = os.listdir(app.config['UPLOAD_FOLDER'])
+        images = []
+        for f in files:
+            if allowed_file(f):
+                info = data.get(f, {"title": "", "desc": ""})
+                images.append({
+                    "filename": f,
+                    "title": info.get("title", ""),
+                    "desc": info.get("desc", "")
+                })
+        return images
+    except Exception as e:
+        print(f"Error in get_images: {str(e)}")
+        return []
 
 @app.route('/')
 def index():
@@ -145,5 +174,4 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     app.run(debug=True)

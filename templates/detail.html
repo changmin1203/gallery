@@ -13,6 +13,7 @@
             font-family: 'Space Grotesk', sans-serif;
             margin: 0;
             padding: 0;
+            overscroll-behavior: none;
         }
         .container { 
             max-width: 1400px; 
@@ -57,31 +58,82 @@
             letter-spacing: 8px;
             text-transform: uppercase;
         }
-        .detail-container {
-            display: flex;
-            gap: 40px;
-            margin: 40px 0;
-            min-height: calc(100vh - 200px);
+
+        /* Desktop Layout */
+        @media (min-width: 769px) {
+            .detail-container {
+                display: flex;
+                gap: 40px;
+                margin: 40px 0;
+                min-height: calc(100vh - 200px);
+            }
+            .image-container {
+                flex: 1;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .content {
+                flex: 0 0 250px;
+                position: sticky;
+                top: 40px;
+                align-self: flex-start;
+            }
         }
-        .image-container {
-            flex: 1;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        /* Mobile Layout (iPhone 16) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0;
+            }
+            header {
+                padding: 20px;
+                margin-bottom: 0;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .detail-container {
+                flex-direction: column;
+                margin: 0;
+            }
+            .image-container {
+                width: 100%;
+                height: 60vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0,0,0,0.8);
+            }
+            .image-container img {
+                max-width: 100%;
+                max-height: 100%;
+                width: auto;
+                height: auto;
+                object-fit: contain;
+            }
+            .content {
+                padding: 20px;
+                background: black;
+            }
+            .title {
+                font-size: 1.8rem !important;
+            }
+            .comments-section {
+                padding: 20px !important;
+            }
+            .comment-form {
+                margin: 0 !important;
+            }
         }
+
         .image-container img {
             max-width: 100%;
             max-height: calc(100vh - 200px);
             width: auto;
             height: auto;
             object-fit: contain;
-        }
-        .content {
-            flex: 0 0 250px;
-            position: sticky;
-            top: 40px;
-            align-self: flex-start;
         }
         .title {
             font-size: 2rem;
@@ -127,6 +179,7 @@
             color: white;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1rem;
+            box-sizing: border-box;
         }
         .form-group input:focus,
         .form-group textarea:focus {
@@ -184,12 +237,22 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             margin-top: 60px;
         }
+
+        @media (max-width: 768px) {
+            .delete-btn {
+                opacity: 1;
+                top: 50%;
+                transform: translateY(-50%);
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>glasses</h1>
+            <a href="/" style="text-decoration:none;color:inherit;"><h1>glasses</h1></a>
             <a href="/" class="btn">Back to Gallery</a>
         </header>
         <main>
